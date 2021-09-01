@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>
+        Pythonでモザイクアートを生成して芸術的な証明写真を作りたい！ - HackMD
+    </title>
+    <link rel="icon" type="image/png" href="https://hackmd.io/favicon.png">
+    <link rel="apple-touch-icon" href="https://hackmd.io/apple-touch-icon.png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" integrity="sha256-3iu9jgsy9TpTwXKb7bNQzqWekRX7pPK+2OLj3R922fo=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/3.5.0/octicons.min.css" integrity="sha256-QiWfLIsCT02Sdwkogf6YMiQlj4NE84MKkzEMkZnMGdg=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/themes/prism.min.css" integrity="sha256-vtR0hSWRc3Tb26iuN2oZHt3KRUomwTufNIf5/4oeCyg=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@hackmd/emojify.js@2.1.0/dist/css/basic/emojify.min.css" integrity="sha256-UOrvMOsSDSrW6szVLe8ZDZezBxh5IoIfgTwdNDgTjiU=" crossorigin="anonymous" />
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i|Source+Code+Pro:300,400,500|Source+Sans+Pro:300,300i,400,400i,600,600i|Source+Serif+Pro&subset=latin-ext);.hljs{display:block;background:#fff;padding:.5em;color:#333;overflow-x:auto}.hljs-comment,.hljs-meta{color:#969896}.hljs-emphasis,.hljs-quote,.hljs-string,.hljs-strong,.hljs-template-variable,.hljs-variable{color:#df5000}.hljs-keyword,.hljs-selector-tag,.hljs-type{color:#a71d5d}.hljs-attribute,.hljs-bullet,.hljs-literal,.hljs-number,.hljs-symbol{color:#0086b3}.hljs-built_in,.hljs-builtin-name{color:#005cc5}.hljs-name,.hljs-section{color:#63a35c}.hljs-tag{color:#333}.hljs-attr,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-id,.hljs-selector-pseudo,.hljs-title{color:#795da3}.hljs-addition{color:#55a532;background-color:#eaffea}.hljs-deletion{color:#bd2c00;background-color:#ffecec}.hljs-link{text-decoration:underline}.markdown-body{font-size:16px;line-height:1.5;word-wrap:break-word}.markdown-body:after,.markdown-body:before{display:table;content:""}.markdown-body:after{clear:both}.markdown-body>:first-child{margin-top:0!important}.markdown-body>:last-child{margin-bottom:0!important}.markdown-body a:not([href]){color:inherit;text-decoration:none}.markdown-body .absent{color:#c00}.markdown-body .anchor{float:left;padding-right:4px;margin-left:-20px;line-height:1}.markdown-body .anchor:focus{outline:none}.markdown-body blockquote,.markdown-body dl,.markdown-body ol,.markdown-body p,.markdown-body pre,.markdown-body table,.markdown-body ul{margin-top:0;margin-bottom:16px}.markdown-body hr{height:.25em;padding:0;margin:24px 0;background-color:#e7e7e7;border:0}.markdown-body blockquote{font-size:16px;padding:0 1em;color:#777;border-left:.25em solid #ddd}.markdown-body blockquote>:first-child{margin-top:0}.markdown-body blockquote>:last-child{margin-bottom:0}.markdown-body kbd,.popover kbd{display:inline-block;padding:3px 5px;font-size:11px;line-height:10px;color:#555;vertical-align:middle;background-color:#fcfcfc;border:1px solid #ccc;border-bottom-color:#bbb;border-radius:3px;box-shadow:inset 0 -1px 0 #bbb}.markdown-body .loweralpha{list-style-type:lower-alpha}.markdown-body h1,.markdown-body h2,.markdown-body h3,.markdown-body h4,.markdown-body h5,.markdown-body h6{margin-top:24px;margin-bottom:16px;font-weight:600;line-height:1.25}.markdown-body h1 .octicon-link,.markdown-body h2 .octicon-link,.markdown-body h3 .octicon-link,.markdown-body h4 .octicon-link,.markdown-body h5 .octicon-link,.markdown-body h6 .octicon-link{color:#000;vertical-align:middle;visibility:hidden}.markdown-body h1:hover .anchor,.markdown-body h2:hover .anchor,.markdown-body h3:hover .anchor,.markdown-body h4:hover .anchor,.markdown-body h5:hover .anchor,.markdown-body h6:hover .anchor{text-decoration:none}.markdown-body h1:hover .anchor .octicon-link,.markdown-body h2:hover .anchor .octicon-link,.markdown-body h3:hover .anchor .octicon-link,.markdown-body h4:hover .anchor .octicon-link,.markdown-body h5:hover .anchor .octicon-link,.markdown-body h6:hover .anchor .octicon-link{visibility:visible}.markdown-body h1 code,.markdown-body h1 tt,.markdown-body h2 code,.markdown-body h2 tt,.markdown-body h3 code,.markdown-body h3 tt,.markdown-body h4 code,.markdown-body h4 tt,.markdown-body h5 code,.markdown-body h5 tt,.markdown-body h6 code,.markdown-body h6 tt{font-size:inherit}.markdown-body h1{font-size:2em}.markdown-body h1,.markdown-body h2{padding-bottom:.3em;border-bottom:1px solid #eee}.markdown-body h2{font-size:1.5em}.markdown-body h3{font-size:1.25em}.markdown-body h4{font-size:1em}.markdown-body h5{font-size:.875em}.markdown-body h6{font-size:.85em;color:#777}.markdown-body ol,.markdown-body ul{padding-left:2em}.markdown-body ol.no-list,.markdown-body ul.no-list{padding:0;list-style-type:none}.markdown-body ol ol,.markdown-body ol ul,.markdown-body ul ol,.markdown-body ul ul{margin-top:0;margin-bottom:0}.markdown-body li>p{margin-top:16px}.markdown-body li+li{padding-top:.25em}.markdown-body dl{padding:0}.markdown-body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}.markdown-body dl dd{padding:0 16px;margin-bottom:16px}.markdown-body table{display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}.markdown-body table th{font-weight:700}.markdown-body table td,.markdown-body table th{padding:6px 13px;border:1px solid #ddd}.markdown-body table tr{background-color:#fff;border-top:1px solid #ccc}.markdown-body table tr:nth-child(2n){background-color:#f8f8f8}.markdown-body img{max-width:100%;box-sizing:content-box;background-color:#fff}.markdown-body img[align=right]{padding-left:20px}.markdown-body img[align=left]{padding-right:20px}.markdown-body .emoji{max-width:none;vertical-align:text-top;background-color:transparent}.markdown-body span.frame{display:block;overflow:hidden}.markdown-body span.frame>span{display:block;float:left;width:auto;padding:7px;margin:13px 0 0;overflow:hidden;border:1px solid #ddd}.markdown-body span.frame span img{display:block;float:left}.markdown-body span.frame span span{display:block;padding:5px 0 0;clear:both;color:#333}.markdown-body span.align-center{display:block;overflow:hidden;clear:both}.markdown-body span.align-center>span{display:block;margin:13px auto 0;overflow:hidden;text-align:center}.markdown-body span.align-center span img{margin:0 auto;text-align:center}.markdown-body span.align-right{display:block;overflow:hidden;clear:both}.markdown-body span.align-right>span{display:block;margin:13px 0 0;overflow:hidden;text-align:right}.markdown-body span.align-right span img{margin:0;text-align:right}.markdown-body span.float-left{display:block;float:left;margin-right:13px;overflow:hidden}.markdown-body span.float-left span{margin:13px 0 0}.markdown-body span.float-right{display:block;float:right;margin-left:13px;overflow:hidden}.markdown-body span.float-right>span{display:block;margin:13px auto 0;overflow:hidden;text-align:right}.markdown-body code,.markdown-body tt{padding:0;padding-top:.2em;padding-bottom:.2em;margin:0;font-size:85%;background-color:rgba(0,0,0,.04);border-radius:3px}.markdown-body code:after,.markdown-body code:before,.markdown-body tt:after,.markdown-body tt:before{letter-spacing:-.2em;content:"\00a0"}.markdown-body code br,.markdown-body tt br{display:none}.markdown-body del code{text-decoration:inherit}.markdown-body pre{word-wrap:normal}.markdown-body pre>code{padding:0;margin:0;font-size:100%;word-break:normal;white-space:pre;background:transparent;border:0}.markdown-body .highlight{margin-bottom:16px}.markdown-body .highlight pre{margin-bottom:0;word-break:normal}.markdown-body .highlight pre,.markdown-body pre{padding:16px;overflow:auto;font-size:85%;line-height:1.45;background-color:#f7f7f7;border-radius:3px}.markdown-body pre code,.markdown-body pre tt{display:inline;max-width:auto;padding:0;margin:0;overflow:visible;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}.markdown-body pre code:after,.markdown-body pre code:before,.markdown-body pre tt:after,.markdown-body pre tt:before{content:normal}.markdown-body .csv-data td,.markdown-body .csv-data th{padding:5px;overflow:hidden;font-size:12px;line-height:1;text-align:left;white-space:nowrap}.markdown-body .csv-data .blob-line-num{padding:10px 8px 9px;text-align:right;background:#fff;border:0}.markdown-body .csv-data tr{border-top:0}.markdown-body .csv-data th{font-weight:700;background:#f8f8f8;border-top:0}.news .alert .markdown-body blockquote{padding:0 0 0 40px;border:0 none}.activity-tab .news .alert .commits,.activity-tab .news .markdown-body blockquote{padding-left:0}.task-list-item{list-style-type:none}.task-list-item label{font-weight:400}.task-list-item.enabled label{cursor:pointer}.task-list-item+.task-list-item{margin-top:3px}.task-list-item-checkbox{float:left;margin:.31em 0 .2em -1.3em!important;vertical-align:middle;cursor:default!important}.markdown-body{padding-top:40px;padding-bottom:40px;max-width:758px;overflow:visible!important;position:relative}.markdown-body .emoji{vertical-align:top}.markdown-body pre{border:inherit!important}.markdown-body code{color:inherit!important}.markdown-body pre code .wrapper{display:-moz-inline-flex;display:-ms-inline-flex;display:-o-inline-flex;display:inline-flex}.markdown-body pre code .gutter{float:left;overflow:hidden;-webkit-user-select:none;user-select:none}.markdown-body pre code .gutter.linenumber{text-align:right;position:relative;display:inline-block;cursor:default;z-index:4;padding:0 8px 0 0;min-width:20px;box-sizing:content-box;color:#afafaf!important;border-right:3px solid #6ce26c!important}.markdown-body pre code .gutter.linenumber>span:before{content:attr(data-linenumber)}.markdown-body pre code .code{float:left;margin:0 0 0 16px}.markdown-body .gist .line-numbers{border-left:none;border-top:none;border-bottom:none}.markdown-body .gist .line-data{border:none}.markdown-body .gist table{border-spacing:0;border-collapse:inherit!important}.markdown-body code[data-gist-id]{background:none;padding:0}.markdown-body code[data-gist-id]:after,.markdown-body code[data-gist-id]:before{content:""}.markdown-body code[data-gist-id] .blob-num{border:unset}.markdown-body code[data-gist-id] table{overflow:unset;margin-bottom:unset}.markdown-body code[data-gist-id] table tr{background:unset}.markdown-body[dir=rtl] pre{direction:ltr}.markdown-body[dir=rtl] code{direction:ltr;unicode-bidi:embed}.markdown-body .alert>p{margin-bottom:0}.markdown-body pre.abc,.markdown-body pre.flow-chart,.markdown-body pre.graphviz,.markdown-body pre.mermaid,.markdown-body pre.sequence-diagram,.markdown-body pre.vega{text-align:center;background-color:inherit;border-radius:0;white-space:inherit;overflow:visible}.markdown-body pre.abc>code,.markdown-body pre.flow-chart>code,.markdown-body pre.graphviz>code,.markdown-body pre.mermaid>code,.markdown-body pre.sequence-diagram>code,.markdown-body pre.vega>code{text-align:left}.markdown-body pre.abc>svg,.markdown-body pre.flow-chart>svg,.markdown-body pre.graphviz>svg,.markdown-body pre.mermaid>svg,.markdown-body pre.sequence-diagram>svg,.markdown-body pre.vega>svg{max-width:100%;height:100%}.markdown-body pre>code.wrap{white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space:-o-pre-wrap;word-wrap:break-word}.markdown-body .alert>p,.markdown-body .alert>ul{margin-bottom:0}.markdown-body summary{display:list-item}.markdown-body summary:focus{outline:none}.markdown-body details summary{cursor:pointer}.markdown-body details:not([open])>:not(summary){display:none}.markdown-body figure{margin:1em 40px}.markdown-body .mark,.markdown-body mark{background-color:#fff1a7}.vimeo,.youtube{cursor:pointer;display:table;text-align:center;background-position:50%;background-repeat:no-repeat;background-size:contain;background-color:#000;overflow:hidden}.vimeo,.youtube{position:relative;width:100%}.youtube{padding-bottom:56.25%}.vimeo img{width:100%;object-fit:contain;z-index:0}.youtube img{object-fit:cover;z-index:0}.vimeo iframe,.youtube iframe,.youtube img{width:100%;height:100%;position:absolute;top:0;left:0}.vimeo iframe,.youtube iframe{vertical-align:middle;z-index:1}.vimeo .icon,.youtube .icon{position:absolute;height:auto;width:auto;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff;opacity:.3;transition:opacity .2s;z-index:0}.vimeo:hover .icon,.youtube:hover .icon{opacity:.6;transition:opacity .2s}.slideshare .inner,.speakerdeck .inner{position:relative;width:100%}.slideshare .inner iframe,.speakerdeck .inner iframe{position:absolute;top:0;bottom:0;left:0;right:0;width:100%;height:100%}.figma{display:table;position:relative;width:100%;padding-bottom:56.25%}.figma iframe{position:absolute;top:0;bottom:0;left:0;right:0;width:100%;height:100%;border:1px solid #eee}.MJX_Assistive_MathML{display:none}#MathJax_Message{z-index:1000!important}.ui-infobar{position:relative;z-index:2;max-width:760px;margin:25px auto -25px;color:#777}.toc .invisable-node{list-style-type:none}.ui-toc{position:fixed;bottom:20px;z-index:998}.ui-toc.both-mode{margin-left:8px}.ui-toc.both-mode .ui-toc-label{height:40px;padding:10px 4px;border-top-left-radius:0;border-bottom-left-radius:0}.ui-toc-label{background-color:#e6e6e6;border:none;color:#868686;transition:opacity .2s}.ui-toc .open .ui-toc-label{opacity:1;color:#fff;transition:opacity .2s}.ui-toc-label:focus{opacity:.3;background-color:#ccc;color:#000}.ui-toc-label:hover{opacity:1;background-color:#ccc;transition:opacity .2s}.ui-toc-dropdown{margin-top:20px;margin-bottom:20px;padding-left:10px;padding-right:10px;max-width:45vw;width:25vw;max-height:70vh;overflow:auto;text-align:inherit}.ui-toc-dropdown>.toc{max-height:calc(70vh - 100px);overflow:auto}.ui-toc-dropdown[dir=rtl] .nav{padding-right:0;letter-spacing:.0029em}.ui-toc-dropdown a{overflow:hidden;text-overflow:ellipsis;white-space:pre}.ui-toc-dropdown .nav>li>a{display:block;padding:4px 20px;font-size:13px;font-weight:500;color:#767676}.ui-toc-dropdown .nav>li:first-child:last-child>ul,.ui-toc-dropdown .toc.expand ul{display:block}.ui-toc-dropdown .nav>li>a:focus,.ui-toc-dropdown .nav>li>a:hover{padding-left:19px;color:#000;text-decoration:none;background-color:transparent;border-left:1px solid #000}.ui-toc-dropdown[dir=rtl] .nav>li>a:focus,.ui-toc-dropdown[dir=rtl] .nav>li>a:hover{padding-right:19px;border-left:none;border-right:1px solid #000}.ui-toc-dropdown .nav>.active:focus>a,.ui-toc-dropdown .nav>.active:hover>a,.ui-toc-dropdown .nav>.active>a{padding-left:18px;font-weight:700;color:#000;background-color:transparent;border-left:2px solid #000}.ui-toc-dropdown[dir=rtl] .nav>.active:focus>a,.ui-toc-dropdown[dir=rtl] .nav>.active:hover>a,.ui-toc-dropdown[dir=rtl] .nav>.active>a{padding-right:18px;border-left:none;border-right:2px solid #000}.ui-toc-dropdown .nav .nav{display:none;padding-bottom:10px}.ui-toc-dropdown .nav>.active>ul{display:block}.ui-toc-dropdown .nav .nav>li>a{padding-top:1px;padding-bottom:1px;padding-left:30px;font-size:12px;font-weight:400}.ui-toc-dropdown[dir=rtl] .nav .nav>li>a{padding-right:30px}.ui-toc-dropdown .nav .nav>li>ul>li>a{padding-top:1px;padding-bottom:1px;padding-left:40px;font-size:12px;font-weight:400}.ui-toc-dropdown[dir=rtl] .nav .nav>li>ul>li>a{padding-right:40px}.ui-toc-dropdown .nav .nav>li>a:focus,.ui-toc-dropdown .nav .nav>li>a:hover{padding-left:29px}.ui-toc-dropdown[dir=rtl] .nav .nav>li>a:focus,.ui-toc-dropdown[dir=rtl] .nav .nav>li>a:hover{padding-right:29px}.ui-toc-dropdown .nav .nav>li>ul>li>a:focus,.ui-toc-dropdown .nav .nav>li>ul>li>a:hover{padding-left:39px}.ui-toc-dropdown[dir=rtl] .nav .nav>li>ul>li>a:focus,.ui-toc-dropdown[dir=rtl] .nav .nav>li>ul>li>a:hover{padding-right:39px}.ui-toc-dropdown .nav .nav>.active:focus>a,.ui-toc-dropdown .nav .nav>.active:hover>a,.ui-toc-dropdown .nav .nav>.active>a{padding-left:28px;font-weight:500}.ui-toc-dropdown[dir=rtl] .nav .nav>.active:focus>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active:hover>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active>a{padding-right:28px}.ui-toc-dropdown .nav .nav>.active>.nav>.active:focus>a,.ui-toc-dropdown .nav .nav>.active>.nav>.active:hover>a,.ui-toc-dropdown .nav .nav>.active>.nav>.active>a{padding-left:38px;font-weight:500}.ui-toc-dropdown[dir=rtl] .nav .nav>.active>.nav>.active:focus>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active>.nav>.active:hover>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active>.nav>.active>a{padding-right:38px}.markdown-body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,sans-serif}html[lang^=ja] .markdown-body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,Hiragino Kaku Gothic Pro,ヒラギノ角ゴ Pro W3,Osaka,Meiryo,メイリオ,MS Gothic,ＭＳ\ ゴシック,sans-serif}html[lang=zh-tw] .markdown-body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,PingFang TC,Microsoft JhengHei,微軟正黑,sans-serif}html[lang=zh-cn] .markdown-body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,PingFang SC,Microsoft YaHei,微软雅黑,sans-serif}html .markdown-body[lang^=ja]{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,Hiragino Kaku Gothic Pro,ヒラギノ角ゴ Pro W3,Osaka,Meiryo,メイリオ,MS Gothic,ＭＳ\ ゴシック,sans-serif}html .markdown-body[lang=zh-tw]{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,PingFang TC,Microsoft JhengHei,微軟正黑,sans-serif}html .markdown-body[lang=zh-cn]{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,PingFang SC,Microsoft YaHei,微软雅黑,sans-serif}html[lang^=ja] .ui-toc-dropdown{font-family:Source Sans Pro,Helvetica,Arial,Meiryo UI,MS PGothic,ＭＳ\ Ｐゴシック,sans-serif}html[lang=zh-tw] .ui-toc-dropdown{font-family:Source Sans Pro,Helvetica,Arial,Microsoft JhengHei UI,微軟正黑UI,sans-serif}html[lang=zh-cn] .ui-toc-dropdown{font-family:Source Sans Pro,Helvetica,Arial,Microsoft YaHei UI,微软雅黑UI,sans-serif}html .ui-toc-dropdown[lang^=ja]{font-family:Source Sans Pro,Helvetica,Arial,Meiryo UI,MS PGothic,ＭＳ\ Ｐゴシック,sans-serif}html .ui-toc-dropdown[lang=zh-tw]{font-family:Source Sans Pro,Helvetica,Arial,Microsoft JhengHei UI,微軟正黑UI,sans-serif}html .ui-toc-dropdown[lang=zh-cn]{font-family:Source Sans Pro,Helvetica,Arial,Microsoft YaHei UI,微软雅黑UI,sans-serif}.ui-affix-toc{position:fixed;top:0;max-width:15vw;max-height:70vh;overflow:auto}.back-to-top,.expand-toggle,.go-to-bottom{display:block;padding:4px 10px;margin-top:10px;margin-left:10px;font-size:12px;font-weight:500;color:#999}.back-to-top:focus,.back-to-top:hover,.expand-toggle:focus,.expand-toggle:hover,.go-to-bottom:focus,.go-to-bottom:hover{color:#563d7c;text-decoration:none}.back-to-top,.go-to-bottom{margin-top:0}.ui-user-icon{width:20px;height:20px;display:block;border-radius:50%;margin-top:2px;margin-bottom:2px;margin-right:5px;background-position:50%;background-repeat:no-repeat;background-size:cover}.ui-user-icon.small{width:18px;height:18px;display:inline-block;vertical-align:middle;margin:0 0 .2em}.ui-infobar>small>span{line-height:22px}.ui-infobar>small .dropdown{display:inline-block}.ui-infobar>small .dropdown a:focus,.ui-infobar>small .dropdown a:hover{text-decoration:none}.ui-more-info{color:#888;cursor:pointer;vertical-align:middle}.ui-more-info .fa{font-size:16px}.ui-connectedGithub,.ui-published-note{color:#888}.ui-connectedGithub{line-height:23px;white-space:nowrap}.ui-connectedGithub a.file-path{color:#888;text-decoration:none;padding-left:22px}.ui-connectedGithub a.file-path:active,.ui-connectedGithub a.file-path:hover{color:#888;text-decoration:underline}.ui-connectedGithub .fa{font-size:20px}.ui-published-note .fa{font-size:20px;vertical-align:top}.unselectable{-webkit-user-select:none;-o-user-select:none;user-select:none}.selectable{-webkit-user-select:text;-o-user-select:text;user-select:text}@media print{blockquote,div,img,pre,table{page-break-inside:avoid!important}a[href]:after{font-size:12px!important}}.markdown-body.slides{position:relative;z-index:1;color:#222}.markdown-body.slides:before{content:"";display:block;position:absolute;top:0;left:0;right:0;bottom:0;z-index:-1;background-color:currentColor;box-shadow:0 0 0 50vw}.markdown-body.slides section[data-markdown]{position:relative;margin-bottom:1.5em;background-color:#fff;text-align:center}.markdown-body.slides section[data-markdown] code{text-align:left}.markdown-body.slides section[data-markdown]:before{content:"";display:block;padding-bottom:56.23%}.markdown-body.slides section[data-markdown]>div:first-child{position:absolute;top:50%;left:1em;right:1em;transform:translateY(-50%);max-height:100%;overflow:hidden}.markdown-body.slides section[data-markdown]>ul{display:inline-block}.markdown-body.slides>section>section+section:after{content:"";position:absolute;top:-1.5em;right:1em;height:1.5em;border:3px solid #777}.site-ui-font{font-family:Source Sans Pro,Helvetica,Arial,sans-serif}html[lang^=ja] .site-ui-font{font-family:Source Sans Pro,Helvetica,Arial,Hiragino Kaku Gothic Pro,ヒラギノ角ゴ Pro W3,Osaka,Meiryo,メイリオ,MS Gothic,ＭＳ\ ゴシック,sans-serif}html[lang=zh-tw] .site-ui-font{font-family:Source Sans Pro,Helvetica,Arial,PingFang TC,Microsoft JhengHei,微軟正黑,sans-serif}html[lang=zh-cn] .site-ui-font{font-family:Source Sans Pro,Helvetica,Arial,PingFang SC,Microsoft YaHei,微软雅黑,sans-serif}body{font-smoothing:subpixel-antialiased!important;-webkit-font-smoothing:subpixel-antialiased!important;-moz-osx-font-smoothing:auto!important;text-shadow:0 0 1em transparent,1px 1px 1.2px rgba(0,0,0,.004);-webkit-overflow-scrolling:touch;letter-spacing:.025em;font-family:Source Sans Pro,Helvetica,Arial,sans-serif}html[lang^=ja] body{font-family:Source Sans Pro,Helvetica,Arial,Hiragino Kaku Gothic Pro,ヒラギノ角ゴ Pro W3,Osaka,Meiryo,メイリオ,MS Gothic,ＭＳ\ ゴシック,sans-serif}html[lang=zh-tw] body{font-family:Source Sans Pro,Helvetica,Arial,PingFang TC,Microsoft JhengHei,微軟正黑,sans-serif}html[lang=zh-cn] body{font-family:Source Sans Pro,Helvetica,Arial,PingFang SC,Microsoft YaHei,微软雅黑,sans-serif}abbr[title]{border-bottom:none;text-decoration:underline;-webkit-text-decoration:underline dotted;text-decoration:underline dotted}abbr[data-original-title],abbr[title]{cursor:help}body.modal-open{overflow-y:auto;padding-right:0!important}
+    </style>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js" integrity="sha256-3Jy/GbSLrg0o9y5Z5n1uw0qxZECH7C6OQpVBgNFYa0g=" crossorigin="anonymous"></script>
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js" integrity="sha256-g6iAfvZp+nDQ2TdTR/VVKJf3bGro4ub5fvWSWVRi2NE=" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js" integrity="sha256-8E4Is26QH0bD52WoQpcB+R/tcWQtpzlCojrybUd7Mxo=" crossorigin="anonymous"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <div id="doc" class="markdown-body container-fluid comment-enabled" data-hard-breaks="true"><h1 id="Pythonでモザイクアートを生成して芸術的な証明写真を作りたい！" data-id="Pythonでモザイクアートを生成して芸術的な証明写真を作りたい！"><a class="anchor hidden-xs" href="#Pythonでモザイクアートを生成して芸術的な証明写真を作りたい！" title="Pythonでモザイクアートを生成して芸術的な証明写真を作りたい！"><span class="octicon octicon-link"></span></a><span>Pythonでモザイクアートを生成して芸術的な証明写真を作りたい！</span></h1><h6 id="tags-OSK" data-id="tags-OSK"><a class="anchor hidden-xs" href="#tags-OSK" title="tags-OSK"><span class="octicon octicon-link"></span></a><span>tags: </span><code>OSK</code></h6><p><span class="toc"><ul>
+<li><a href="#Pythonでモザイクアートを生成して芸術的な証明写真を作りたい！" title="Pythonでモザイクアートを生成して芸術的な証明写真を作りたい！">Pythonでモザイクアートを生成して芸術的な証明写真を作りたい！</a><ul>
+<li><a href="#ストーリー" title="ストーリー">ストーリー</a><ul>
+<li><a href="#課題との出会い" title="課題との出会い">課題との出会い</a></li>
+<li><a href="#どうせなら、映えるもの" title="どうせなら、映えるもの">どうせなら、映えるもの</a></li>
+</ul>
+</li>
+<li><a href="#問題設定" title="問題設定">問題設定</a><ul>
+<li><a href="#萎えたこと" title="萎えたこと">萎えたこと</a></li>
+<li><a href="#フェイクの出現" title="フェイクの出現">フェイクの出現</a></li>
+</ul>
+</li>
+<li><a href="#環境" title="環境">環境</a></li>
+<li><a href="#今回使う画像" title="今回使う画像">今回使う画像</a><ul>
+<li><a href="#ターゲット画像-画像左" title="ターゲット画像 (画像左)">ターゲット画像 (画像左)</a></li>
+<li><a href="#素材画像右" title="素材(画像右)">素材(画像右)</a></li>
+</ul>
+</li>
+<li><a href="#プログラムの流れ" title="プログラムの流れ">プログラムの流れ</a><ul>
+<li><a href="#画像処理の概要" title="画像処理の概要">画像処理の概要</a></li>
+<li><a href="#画像の類似度、どう計算する？" title="画像の類似度、どう計算する？">画像の類似度、どう計算する？</a></li>
+<li><a href="#こんな感じで比べることにした" title="こんな感じで比べることにした">こんな感じで比べることにした</a></li>
+</ul>
+</li>
+<li><a href="#生成結果" title="生成結果">生成結果</a></li>
+<li><a href="#改良できそうな点" title="改良できそうな点">改良できそうな点</a></li>
+<li><a href="#プログラム概要" title="プログラム概要">プログラム概要</a><ul>
+<li><a href="#予防線・反省" title="予防線・反省">予防線・反省</a></li>
+<li><a href="#各ファイルについて" title="各ファイルについて">各ファイルについて</a></li>
+<li><a href="#フォルダ構成" title="フォルダ構成">フォルダ構成</a></li>
+<li><a href="#プログラム全文" title="プログラム全文">プログラム全文</a></li>
+</ul>
+</li>
+<li><a href="#参考文献" title="参考文献">参考文献</a></li>
+</ul>
+</li>
+</ul>
+</span></p><h2 id="ストーリー" data-id="ストーリー"><a class="anchor hidden-xs" href="#ストーリー" title="ストーリー"><span class="octicon octicon-link"></span></a><span>ストーリー</span></h2><h3 id="課題との出会い" data-id="課題との出会い"><a class="anchor hidden-xs" href="#課題との出会い" title="課題との出会い"><span class="octicon octicon-link"></span></a><span>課題との出会い</span></h3><p><strong><span>「なんでもいいからプログラミングしてこい」</span></strong><span> という課題が飛び込んできた。(ゼミで)</span></p><p><span>正確に言うと、</span></p><pre><code>1. 4択クイズ のシステム作成
+2. 売上予測のシミュレーション
+3. 森林火災のモデル化
+4. 感染症の対策効果の検証 …
+</code></pre><p><span>みたいな感じでいくつか例が挙げられていて、具体的にこういう実装をしてくれとナビゲーションがある。僕は「指示のあるプログラムなんてぬるま湯だぜ！」と思ったので、</span><strong><span>「10. 自由課題」</span></strong><span> しか見えなかった。</span></p><p><span>それじゃ結局、最初の課題内容は嘘なのですが、とにかく自由課題に取り組むことにする。</span></p><h3 id="どうせなら、映えるもの" data-id="どうせなら、映えるもの"><a class="anchor hidden-xs" href="#どうせなら、映えるもの" title="どうせなら、映えるもの"><span class="octicon octicon-link"></span></a><span>どうせなら、映えるもの</span></h3><p><span>ゼミではプログラムを書いて、それをスライドにまとめて発表をしないといけない。それならきっと</span><strong><span>ビジュアル</span></strong><span>なものがいいだろう。</span></p><p><span>モザイクアートってプログラムで自動で作れそう、というアイデアが前々からあったので、いい機会だと思ってやってみることにした。</span></p><p><span>ちなみに、1~2日でできるっしょ！みたいな感じで高をくくってはじめたら結構苦戦した。</span></p><hr><h2 id="問題設定" data-id="問題設定"><a class="anchor hidden-xs" href="#問題設定" title="問題設定"><span class="octicon octicon-link"></span></a><span>問題設定</span></h2><p><span>問題設定はこんな感じ。</span></p><p><span>「好きな写真を入力として、モザイクアートを出力するプログラムを作成する。」</span></p><p><span>めちゃめちゃざっくりだけど、これが目標。</span></p><h3 id="萎えたこと" data-id="萎えたこと"><a class="anchor hidden-xs" href="#萎えたこと" title="萎えたこと"><span class="octicon octicon-link"></span></a><span>萎えたこと</span></h3><p><span>作成に当たってモザイクアートについて調べてみたら普通にそういうWebアプリケーションあった。</span></p><p><span>作りたい画像と、素材にしたい写真をアップロードしたらモザイクアートを作ってくれる。</span><strong><span>もう、これでいいじゃん…</span></strong><span> と思って若干萎えたけど、それ以外のアイデアもなかったのでこのままやることにした。</span></p><div class="alert alert-success">
+<p><span>ちなみに実装の記事も見つかった。</span><br>
+<span>ゼミで、誰かが書いたプログラムを使うことは禁止(正確には、理解していなかったり説明できないコードを使うのはダメ)されてるので、それは参考程度にとどめた。</span></p>
+</div><h3 id="フェイクの出現" data-id="フェイクの出現"><a class="anchor hidden-xs" href="#フェイクの出現" title="フェイクの出現"><span class="octicon octicon-link"></span></a><span>フェイクの出現</span></h3><p><span>脱線ばかりしてるけど、もう1個。</span><br>
+<span>作るにあたってモザイクアートをいろいろ解説してる記事と巡り合った。それがこちら。</span></p><div class="alert alert-success">
+<p><a href="https://www.photomosaicart-de-memorial.jp/successpoint_no1/" target="_blank" rel="noopener"><span>第1回 本来のフォトモザイクアートとは！？ | JDO-MosaicArt</span></a></p>
+</div><p><span>モザイクアートって「ターゲット画像を、素材を並べて再現するもの」ですよね。でも、中には</span><strong><span>ターゲット画像を透かして浮かび上がらせている画像もある</span></strong><span>らしい。それ、意味ないじゃん。素人でもわかる。</span></p><p><span>モザイクアート界にも外道ってあるんだな～としみじみした。</span></p><hr><h2 id="環境" data-id="環境"><a class="anchor hidden-xs" href="#環境" title="環境"><span class="octicon octicon-link"></span></a><span>環境</span></h2><div class="alert alert-info">
+<p><span>別に大事じゃないので飛ばしてくれて構わないです</span></p>
+</div><p><span>以下の環境を使った。</span></p><ul>
+<li><span>Windows 10 Home 2004 64bit</span></li>
+<li><span>Python 3.9.5</span></li>
+<li><span>Visual Studio Code 1.56.2</span></li>
+</ul><p><span>Pythonは画像処理で使われる有名なライブラリ「</span><code>OpenCV</code><span>」を動かすことができる。あとで機械学習用のデータセットを使うことになるけど、Python上で</span><code>torchvision</code><span>というライブラリを使って呼び出している。大量の画像データを使う今回のようなプロジェクトにPythonはぴったりだと思う。</span></p><hr><h2 id="今回使う画像" data-id="今回使う画像"><a class="anchor hidden-xs" href="#今回使う画像" title="今回使う画像"><span class="octicon octicon-link"></span></a><span>今回使う画像</span></h2><p><span>ゼミで発表をしたので、発表用スライドをところどころ引用する。</span></p><p><img src="https://i.imgur.com/Rjr0ZR5.png" alt="" loading="lazy"></p><p><strong><span>※ カッコの中身は画像サイズ</span></strong></p><h3 id="ターゲット画像-画像左" data-id="ターゲット画像-画像左"><a class="anchor hidden-xs" href="#ターゲット画像-画像左" title="ターゲット画像-画像左"><span class="octicon octicon-link"></span></a><span>ターゲット画像 (画像左)</span></h3><p><span>綺麗な風景の写真とかをモザイク化してもあまり面白くないので、証明写真を使うことにした。</span></p><p><span>発表では、自分の証明写真を出したら受けるかなと思ったけど微妙な空気になった。どうしてくれんの！</span></p><p><span>ということで、これが原画に相当する。これをモザイク化すると思ってほしい。</span></p><h3 id="素材画像右" data-id="素材画像右"><a class="anchor hidden-xs" href="#素材画像右" title="素材画像右"><span class="octicon octicon-link"></span></a><span>素材(画像右)</span></h3><p><span>Pythonが得意とする機械学習ではビッグデータを扱う。素材にはたくさんの画像が必要だから、</span><strong><span>機械学習用のデータセット</span></strong><span>は適任だと思う。</span></p><p><code>CIFAR-100</code><span>は </span><span class="mathjax raw">\(32 × 32\)</span><span> の画像が6万枚も入ったデータセットで、データが多いことと画像サイズが小さいことからこれを使うことに決めた。</span></p><p><span>また、</span><code>CIFAR-100</code><span> は画像と正解ラベルとよばれるものがセットになっていて、正解ラベルは機械が学習するために使われるのだが、今回は必要ないので大量の画像部分だけを使わせていただいた。</span></p><hr><h2 id="プログラムの流れ" data-id="プログラムの流れ"><a class="anchor hidden-xs" href="#プログラムの流れ" title="プログラムの流れ"><span class="octicon octicon-link"></span></a><span>プログラムの流れ</span></h2><p><span>少し具体的に、プログラムの流れを整理しておく。</span><br>
+<img src="https://i.imgur.com/5bQOGB4.png" alt="" loading="lazy"></p><p><span>ターゲット画像は </span><span class="mathjax raw">\(768×1024\)</span><span>。それぞれのエリアを似た素材に置き換えたいので、まずはターゲット画像を分割する。CIFAR-100を素材としたとき、横に24分割、縦に32分割して、</span><strong><span>計768枚の画像で敷き詰めることができる。</span></strong></p><p><span>それから、分割されたエリアと</span><code>CIFAR-100</code><span>を何かしらの方法で比較して、類似度を計算する。一番似ている素材で置き換えたいので、類似度が最も高かった素材は保存しておく(正確には、素材のIDを保存しておく)。</span></p><p><span>分割されたエリアのすべてに対して、一番似ている素材が見つかったら、あとは素材を並べてプロットする。</span></p><h3 id="画像処理の概要" data-id="画像処理の概要"><a class="anchor hidden-xs" href="#画像処理の概要" title="画像処理の概要"><span class="octicon octicon-link"></span></a><span>画像処理の概要</span></h3><div class="alert alert-info">
+<p><span>画像処理について、概要だけ記しておく。</span><br>
+<span>必要ない人は読み飛ばしてほしい。</span></p>
+</div><p><span>画像は</span><strong><span>ピクセル</span></strong><span>を並べたものである。画像を拡大してみると、カクカクしているのがわかると思う。その最小単位、画素とも呼ばれるものがピクセル。</span></p><div class="alert alert-success">
+<p><span>たとえば、素材に使った画像CIFAR-100では、縦32 × 横32のピクセルが集まることで画像が構成されている。</span></p>
+<p><img src="https://i.imgur.com/76oP2rw.png" alt="" loading="lazy"></p>
+</div><p><span>そして、ピクセルは一つの色を表している。</span><br>
+<span>一つの色はRGBの値などで表せるから、</span><strong><span>画像は数字に変換できる</span></strong><span> ということになる。</span></p><p><span>グレースケール画像では、1つのピクセルは0～255の256段階の値をとる。</span><br>
+<span>一般的なカラーの画像では、</span><strong><span>RGB値</span></strong><span> で色を表現していて、R(赤)、G(緑)、 B(青) のそれぞれの値が256段階をとる。</span></p><div class="alert alert-success">
+<p><span>たとえば、</span><br>
+<span>赤は(R, G, B) = (255, 0, 0) ,</span><br>
+<span>紫は(R, G, B) = (255, 0, 255)。</span></p>
+</div><p><span>1ピクセルがとる値は、</span><span class="mathjax raw">\(256^3\)</span><span> で </span><strong><span>1600万以上</span></strong><span> にもなる。</span></p><p><span>画像処理をするときは、このように画像を数値に変換してどうこうすることが分かってもらえればいい。</span></p><h3 id="画像の類似度、どう計算する？" data-id="画像の類似度、どう計算する？"><a class="anchor hidden-xs" href="#画像の類似度、どう計算する？" title="画像の類似度、どう計算する？"><span class="octicon octicon-link"></span></a><span>画像の類似度、どう計算する？</span></h3><p><span>作成の中で一番苦戦したのがこの部分で、なかなかカラー画像の比較手法が見つからなかった。</span></p><p><span>白黒ならまだしも、オレンジとピンクがどれくらい近いのかとか、水色とブラウンがどれくらい近いのかとか、判定するのってどうすればいいのかわからない。実際、白黒画像を比べる手法はいっぱい見つかったけどカラー画像に関してはなかなかヒットしない。</span></p><p><span>探し回った結果、</span><a href="https://aidiary.hatenablog.com/entry/20091003/1254574041" target="_blank" rel="noopener"><span>類似画像検索システムを作ろう</span></a><span> こちらのサイトを参考に、</span><strong><span>ヒストグラム</span></strong><span>による比較手法を採用することにした。</span></p><h3 id="こんな感じで比べることにした" data-id="こんな感じで比べることにした"><a class="anchor hidden-xs" href="#こんな感じで比べることにした" title="こんな感じで比べることにした"><span class="octicon octicon-link"></span></a><span>こんな感じで比べることにした</span></h3><ol>
+<li><span>各ピクセルは </span><span class="mathjax raw">\(256^3\)</span><span> 通りで表されている。ここで、RGBそれぞれを</span><span class="mathjax raw">\(4\)</span><span> 段階に減色する。これにより、1ピクセルが</span><span class="mathjax raw">\(4^3\)</span><span> 通りで表されるようになる。以下、使用したコード。</span></li>
+</ol><pre><code class="python hljs"><div class="wrapper"><div class="gutter linenumber"><span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span></div><div class="code"><span class="hljs-comment"># (0~255)の値を4段階(0~3)に減色</span>
+<span class="hljs-comment"># 入力: int(0~255), 出力: int(0~3)</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">decrease_color</span>(<span class="hljs-params">value</span>):</span>
+    <span class="hljs-keyword">if</span> value &lt; <span class="hljs-number">64</span>:
+        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>
+    <span class="hljs-keyword">elif</span> value &lt; <span class="hljs-number">128</span>:
+        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>
+    <span class="hljs-keyword">elif</span> value &lt; <span class="hljs-number">196</span>:
+        <span class="hljs-keyword">return</span> <span class="hljs-number">2</span>
+    <span class="hljs-keyword">else</span>:
+        <span class="hljs-keyword">return</span> <span class="hljs-number">3</span>
+</div></div></code></pre><ol start="2">
+<li>
+<p><span>RGBのそれぞれが </span><span class="mathjax raw">\(4\)</span><span> 段階、つまり </span><span class="mathjax raw">\(4^3\)</span><span> の組み合わせで表されるピクセルを、式 </span><span class="mathjax raw">\(R×1 + G×4 + B×16\)</span><span> で 整数 </span><span class="mathjax raw">\(𝑛 (0≤𝑛≤63)\)</span><span> に変換する。ここまでで、1600万以上通りだった1ピクセルがざっくり64通りに分類できたことになる。</span></p>
+</li>
+<li>
+<p><span class="mathjax raw">\(𝑛 (0≤𝑛≤63)\)</span><span> で表されるピクセルがいくつ入っているかをヒストグラム化する。</span></p>
+</li>
+</ol><div class="alert alert-success">
+<p><span>ヒストグラムは、0の値を取るピクセルがいくつあるか(最大1024個), 1の値を取るピクセルがいくつあるか(最大1024個), ・・・, 63の値を取るピクセルがいくつあるか(最大1024個) を表していて、値の総和は1024になる。(32×32の画像の総ピクセル数に対応する。)</span></p>
+</div><ol start="4">
+<li><span>画像(3×32×32)→ヒストグラム(1×64)に変換が完了した。</span></li>
+</ol><div class="alert alert-success">
+<p><span>画像をこういうヒストグラムに変換できた。</span><br>
+<span>横軸は </span><span class="mathjax raw">\(n\)</span><span>, 縦軸は 「画像内の、</span><span class="mathjax raw">\(n\)</span><span> で表されるピクセルの数」</span><span class="mathjax raw">\((0 ～ 1024)\)</span><span> を表している。</span></p>
+<p><img src="https://i.imgur.com/FXuUFYn.png" alt="" loading="lazy"></p>
+</div><ol start="5">
+<li><code>OpenCV</code><span> の </span><code>CompareHist()</code><span> というヒストグラム比較用の関数で、分割されたエリアと素材とを比較する。比較手法には、相関(</span><code>CV_COMP_CORREL</code><span>) を使用した。</span></li>
+</ol><p><span>(ほかにも使えそうな画像の比較手法があれば教えてほしい。)</span></p><hr><h2 id="生成結果" data-id="生成結果"><a class="anchor hidden-xs" href="#生成結果" title="生成結果"><span class="octicon octicon-link"></span></a><span>生成結果</span></h2><p><img src="https://i.imgur.com/ohEG0eb.png" alt="" loading="lazy"></p><p><span>こんな感じの画像が出力された。同じ画像使われまくってるので、重複なしでも作ったほうがいいかも。</span></p><p><img src="https://i.imgur.com/Ng6SIWs.png" alt="" loading="lazy"></p><p><span>ということで、重複を許すパターンと、許さないパターンで作った。自己評価としては、顔のパーツはさすがに厳しいけどスーツのところとかは結構いい感じかなあ。</span></p><p><span>今回はターゲット画像を768枚の素材を並べて再現しているけど、違和感ない画像を作るためにはもっと多くの画像を並べて作るのが大事かもしれない。</span></p><p><span>ちなみに実行時間はノートPCで、全部で17分くらいだった。</span></p><hr><h2 id="改良できそうな点" data-id="改良できそうな点"><a class="anchor hidden-xs" href="#改良できそうな点" title="改良できそうな点"><span class="octicon octicon-link"></span></a><span>改良できそうな点</span></h2><p><span>今回の手法では、画像を比較するとき</span><strong><span>画像の位置の情報や形状の情報が失われている。</span></strong><span> これは、「この画像にはこういう色のピクセルがいくつ入っている」という情報に圧縮してから比べているため。</span></p><p><span>たとえば、アイルランドの国旗とコートジボワールの国旗は同じヒストグラムになる。</span></p><p><img src="https://i.imgur.com/VwR2jv2.png" alt="" loading="lazy"><br>
+<span>左: アイルランド, 右: コートジボワール</span></p><p><span>これがモザイクアートの生成に悪影響なのは言うまでもない。ということで、画像を特徴量に変換する方法には改良の余地が大いにある。</span></p><p><span>(なお、実際に改良するかは別の問題。)</span></p><hr><h2 id="プログラム概要" data-id="プログラム概要"><a class="anchor hidden-xs" href="#プログラム概要" title="プログラム概要"><span class="octicon octicon-link"></span></a><span>プログラム概要</span></h2><h3 id="予防線・反省" data-id="予防線・反省"><a class="anchor hidden-xs" href="#予防線・反省" title="予防線・反省"><span class="octicon octicon-link"></span></a><span>予防線・反省</span></h3><p><span>プログラムには至らない点が結構あると思う。特に、ターゲット画像は、いろいろな画像サイズに対応していない。ゼミでの発表後に「これって(証明写真以外の)ほかの画像もできるんですか？」みたいな質問された。「もちろんできます」って返したけど、本当は画像を整形する処理を追加しないと動きません。</span></p><p><span>それから、画像を数値に変換した後の形式を</span><code>torch.Tensor</code><span>型で統一したのですが、あまり賢くなかったかも… 別に機械学習系の関数を使うわけではなかったので、より広く使われている</span><code>numpy.adarray</code><span>型で進行したほうがスムーズだったかなと思った。</span></p><h3 id="各ファイルについて" data-id="各ファイルについて"><a class="anchor hidden-xs" href="#各ファイルについて" title="各ファイルについて"><span class="octicon octicon-link"></span></a><span>各ファイルについて</span></h3><p><code>utils.py</code><span> では複数回使う関数をまとめている。</span><br>
+<code>preprocessing.py</code><span> では素材画像のヒストグラム化を、(何度もすることを防ぐため)あらかじめやっておき、保存しておく。(動かすと </span><code>cifar-100</code><span>, </span><code>cifar100object.pickle</code><span> が保存される。)</span><br>
+<code>main.py</code><span>ではターゲット画像のヒストグラム化～類似度計算～画像のプロットみたいな処理をしている。</span></p><h3 id="フォルダ構成" data-id="フォルダ構成"><a class="anchor hidden-xs" href="#フォルダ構成" title="フォルダ構成"><span class="octicon octicon-link"></span></a><span>フォルダ構成</span></h3><p><span>.</span><br>
+<span>├── </span><code>target_image</code><br>
+<span>│   └─ </span><code>idphoto.jpg</code><br>
+<span>├── </span><code>utils.py</code><br>
+<span>├── </span><code>preprocessing.py</code><br>
+<span>└── </span><code>main.py</code></p><h3 id="プログラム全文" data-id="プログラム全文"><a class="anchor hidden-xs" href="#プログラム全文" title="プログラム全文"><span class="octicon octicon-link"></span></a><span>プログラム全文</span></h3><p><code>utils.py</code></p><pre><code class="python hljs"><div class="wrapper"><div class="gutter linenumber"><span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span></div><div class="code"><span class="hljs-keyword">import</span> torch
+<span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">decrease_color</span>(<span class="hljs-params">value</span>):</span>
+    <span class="hljs-string">"""
+    (0~255)の値を4段階(0~3)に減色
+    入力: int(0~255), 出力: int(0~3)
+    """</span>
+    <span class="hljs-keyword">if</span> value &lt; <span class="hljs-number">64</span>:
+        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>
+    <span class="hljs-keyword">elif</span> value &lt; <span class="hljs-number">128</span>:
+        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>
+    <span class="hljs-keyword">elif</span> value &lt; <span class="hljs-number">196</span>:
+        <span class="hljs-keyword">return</span> <span class="hljs-number">2</span>
+    <span class="hljs-keyword">else</span>:
+        <span class="hljs-keyword">return</span> <span class="hljs-number">3</span>
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">convert_image_to_histogram</span>(<span class="hljs-params">image</span>):</span>
+    <span class="hljs-string">"""
+    (3, 32, 32) の画像を (1, 32, 32) に変換, その後,ヒストグラム(64次元ベクトル) に変換
+    値は64段階(0~63)
+    R(0~3)*1 + G(0~3)*4 + B(0~3)*16で算出
+    入力: torch.Tensor, 出力: torch.Tensor
+    """</span>
+    converted_image = np.empty((<span class="hljs-number">32</span>, <span class="hljs-number">32</span>), dtype=np.<span class="hljs-built_in">int</span>)
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">32</span>):
+        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">32</span>):
+            pixel_value = <span class="hljs-number">0</span>
+            <span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">3</span>):
+                pixel_RGB_value = decrease_color(image[k, i, j].item())
+                pixel_value += pixel_RGB_value * (<span class="hljs-number">4</span>**k)
+            converted_image[i][j] = pixel_value
+    histogram = np.empty(<span class="hljs-number">64</span>, dtype=np.<span class="hljs-built_in">int</span>)
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">64</span>):
+        num = np.count_nonzero(converted_image == i)
+        histogram[i] = num
+    histogram = torch.from_numpy(histogram)
+    <span class="hljs-keyword">return</span> histogram
+</div></div></code></pre><p><code>preprocessing.py</code></p><pre><code class="python hljs"><div class="wrapper"><div class="gutter linenumber"><span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span></div><div class="code"><span class="hljs-comment"># coding: utf-8</span>
+<span class="hljs-keyword">import</span> torchvision
+<span class="hljs-keyword">import</span> torchvision.transforms <span class="hljs-keyword">as</span> transforms
+<span class="hljs-keyword">import</span> pickle
+<span class="hljs-keyword">import</span> time
+<span class="hljs-keyword">from</span> tqdm <span class="hljs-keyword">import</span> tqdm
+<span class="hljs-keyword">from</span> utils <span class="hljs-keyword">import</span> *
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span>():</span>
+    photo_parts = torchvision.datasets.CIFAR100(<span class="hljs-string">'./cifar-100'</span>,train=<span class="hljs-literal">True</span>, download=<span class="hljs-literal">True</span>, transform=transforms.ToTensor())
+    photo_parts_histograms = [] <span class="hljs-comment"># list (each item = torch.Tensor)</span>
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> tqdm(<span class="hljs-built_in">range</span>(<span class="hljs-number">50000</span>)):
+        histogram = convert_image_to_histogram(photo_parts[i][<span class="hljs-number">0</span>]* <span class="hljs-number">255</span>)
+        photo_parts_histograms.append(histogram)
+    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">'cifar100object.pickle'</span>,mode=<span class="hljs-string">'wb'</span>) <span class="hljs-keyword">as</span> f:
+        pickle.dump(photo_parts_histograms, f)
+
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">'__main__'</span>:
+    t1 = time.time()
+    main() 
+    t2 = time.time()
+    elapsed_time = t2 - t1
+    print(<span class="hljs-string">f'elapsed_time: <span class="hljs-subst">{elapsed_time}</span>'</span>)
+</div></div></code></pre><p><code>main.py</code></p><pre><code class="python hljs"><div class="wrapper"><div class="gutter linenumber"><span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span></div><div class="code"><span class="hljs-comment"># coding: utf-8</span>
+<span class="hljs-keyword">import</span> torch
+<span class="hljs-keyword">import</span> torchvision
+<span class="hljs-keyword">import</span> torchvision.transforms <span class="hljs-keyword">as</span> transforms
+<span class="hljs-keyword">from</span> PIL <span class="hljs-keyword">import</span> Image
+<span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+<span class="hljs-keyword">import</span> cv2
+<span class="hljs-keyword">import</span> pickle
+<span class="hljs-keyword">import</span> time
+<span class="hljs-keyword">from</span> tqdm <span class="hljs-keyword">import</span> tqdm
+<span class="hljs-keyword">from</span> utils <span class="hljs-keyword">import</span> *
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">preprocess_target_image</span>():</span>
+    <span class="hljs-string">"""
+    target_image の読み込みと整形
+    入力: なし, 出力: torch.Tensor, torch.Tensor, list(値: torch.Tensor)
+    """</span>
+    <span class="hljs-keyword">with</span> Image.<span class="hljs-built_in">open</span>(<span class="hljs-string">'target_data/idphoto.jpg'</span>) <span class="hljs-keyword">as</span> img:
+        target_image = np.expand_dims(np.asarray(img, np.float32), axis=<span class="hljs-number">0</span>)
+    target_image = torch.as_tensor(target_image) <span class="hljs-comment"># target_image.size() = (1, 1024, 768, 3)</span>
+    target_image = target_image.unfold(<span class="hljs-number">1</span>, <span class="hljs-number">32</span>, <span class="hljs-number">32</span>).unfold(<span class="hljs-number">2</span>, <span class="hljs-number">32</span>, <span class="hljs-number">32</span>) <span class="hljs-comment"># target_image.size() = (1, 32, 24, 3, 32, 32)</span>
+    target_image = target_image.reshape(-<span class="hljs-number">1</span>, <span class="hljs-number">3</span>, <span class="hljs-number">32</span>, <span class="hljs-number">32</span>) <span class="hljs-comment"># target_image.size() = (768, 3, 32, 32)</span>
+
+    photo_parts = torchvision.datasets.CIFAR100(<span class="hljs-string">'./cifar-100'</span>,
+        train=<span class="hljs-literal">True</span>, download=<span class="hljs-literal">True</span>, transform=transforms.ToTensor())
+    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">'cifar100object.pickle'</span>, mode=<span class="hljs-string">'rb'</span>) <span class="hljs-keyword">as</span> f:
+        photo_parts_histograms = pickle.load(f)
+    <span class="hljs-keyword">return</span> target_image, photo_parts, photo_parts_histograms
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">search_similar_histogram</span>(<span class="hljs-params">target_image, search_num, photo_parts_histograms, no_duplication_flag</span>):</span>
+    <span class="hljs-string">"""
+    target_imageの全エリアに対してヒストグラムに変換 =&gt; search_num 回の間 photo_parts_histogram と比較
+    入力: (torch.Tensor, int, list), 出力: int
+    """</span>
+    most_similar_image_ids = []
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> tqdm(<span class="hljs-built_in">range</span>(<span class="hljs-number">768</span>)):
+        most_similar_image_id = <span class="hljs-number">0</span>
+        max_similarity = <span class="hljs-number">0</span>
+        target_area = target_image[i]
+        target_area_histogram = convert_image_to_histogram(target_area)
+        target_area_histogram = target_area_histogram.numpy().astype(np.float32)
+        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(search_num):
+            <span class="hljs-keyword">if</span> no_duplication_flag <span class="hljs-keyword">and</span> j <span class="hljs-keyword">in</span> most_similar_image_ids:
+                <span class="hljs-keyword">continue</span>
+            photo_parts_histogram = photo_parts_histograms[j].numpy().astype(np.float32)
+            similarity = cv2.compareHist(target_area_histogram, photo_parts_histogram, cv2.HISTCMP_CORREL) <span class="hljs-comment"># 相関</span>
+            <span class="hljs-keyword">if</span> similarity &gt; max_similarity:
+                max_similarity = similarity
+                most_similar_image_id = j
+        most_similar_image_ids.append(most_similar_image_id)
+    <span class="hljs-keyword">return</span> most_similar_image_ids
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">plotimage</span>(<span class="hljs-params">ids, data</span>):</span>
+    <span class="hljs-string">"""
+    ids からモザイクアートを生成し、png形式で保存
+    入力: (list, list), 出力: なし
+    """</span>
+    generated_image = torch.Tensor(<span class="hljs-number">768</span>, <span class="hljs-number">3</span>, <span class="hljs-number">32</span>, <span class="hljs-number">32</span>)
+    <span class="hljs-keyword">for</span> i, item <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(ids):
+        generated_image[i] = data[item][<span class="hljs-number">0</span>]
+    torchvision.utils.save_image(generated_image, <span class="hljs-string">"generated.png"</span>, nrow=<span class="hljs-number">24</span>, padding=<span class="hljs-number">0</span>) <span class="hljs-comment"># (32, 24, 3, 32, 32) で保存</span>
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span>():</span>
+    search_num = <span class="hljs-number">50000</span>
+    no_duplication_flag = <span class="hljs-literal">False</span> <span class="hljs-comment"># True: フォトパーツの重複を許容しない, False: 許容する</span>
+    target_image, photo_parts, photo_parts_histograms = preprocess_target_image()
+    most_similar_image_ids = search_similar_histogram(target_image, search_num, photo_parts_histograms, no_duplication_flag)
+    plotimage(most_similar_image_ids, photo_parts)
+
+
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">'__main__'</span>:
+    t1 = time.time()
+    main()
+    t2 = time.time()
+    elapsed_time = t2 - t1
+    print(<span class="hljs-string">f'elapsed_time: <span class="hljs-subst">{elapsed_time}</span>'</span>)
+</div></div></code></pre><h2 id="参考文献" data-id="参考文献"><a class="anchor hidden-xs" href="#参考文献" title="参考文献"><span class="octicon octicon-link"></span></a><span>参考文献</span></h2><ul>
+<li><span>類似画像検索システムを作ろう（C++とOpenCV）(</span><a href="https://aidiary.hatenablog.com/entry/20091003/1254574041" target="_blank" rel="noopener"><span>https://aidiary.hatenablog.com/entry/20091003/1254574041</span></a><span>)</span></li>
+<li><span>Python + OpenCVで画像の類似度を求める(</span><a href="https://qiita.com/best_not_best/items/c9497ffb5240622ede01" target="_blank" rel="noopener"><span>https://qiita.com/best_not_best/items/c9497ffb5240622ede01</span></a><span>)</span></li>
+<li><span>CIFAR-100：物体カラー写真（動植物や機器、乗り物など100種類）の画像データセット(</span><a href="https://www.atmarkit.co.jp/ait/articles/2006/15/news036.html" target="_blank" rel="noopener"><span>https://www.atmarkit.co.jp/ait/articles/2006/15/news036.html</span></a><span>)</span></li>
+<li><span>PyTorchで画像を小さいパッチに切り出す方法(</span><a href="https://blog.shikoan.com/pytorch-extract-patches/" target="_blank" rel="noopener"><span>https://blog.shikoan.com/pytorch-extract-patches/</span></a><span>)</span></li>
+</ul></div>
+    <div class="ui-toc dropup unselectable hidden-print" style="display:none;">
+        <div class="pull-right dropdown">
+            <a id="tocLabel" class="ui-toc-label btn btn-default" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" title="Table of content">
+                <i class="fa fa-bars"></i>
+            </a>
+            <ul id="ui-toc" class="ui-toc-dropdown dropdown-menu" aria-labelledby="tocLabel">
+                <div class="toc"><ul class="nav">
+<li class=""><a href="#Pythonでモザイクアートを生成して芸術的な証明写真を作りたい！" title="Pythonでモザイクアートを生成して芸術的な証明写真を作りたい！">Pythonでモザイクアートを生成して芸術的な証明写真を作りたい！</a><ul class="nav">
+<li><a href="#ストーリー" title="ストーリー">ストーリー</a><ul class="nav">
+<li><a href="#課題との出会い" title="課題との出会い">課題との出会い</a></li>
+<li><a href="#どうせなら、映えるもの" title="どうせなら、映えるもの">どうせなら、映えるもの</a></li>
+</ul>
+</li>
+<li><a href="#問題設定" title="問題設定">問題設定</a><ul class="nav">
+<li><a href="#萎えたこと" title="萎えたこと">萎えたこと</a></li>
+<li><a href="#フェイクの出現" title="フェイクの出現">フェイクの出現</a></li>
+</ul>
+</li>
+<li><a href="#環境" title="環境">環境</a></li>
+<li><a href="#今回使う画像" title="今回使う画像">今回使う画像</a><ul class="nav">
+<li><a href="#ターゲット画像-画像左" title="ターゲット画像 (画像左)">ターゲット画像 (画像左)</a></li>
+<li><a href="#素材画像右" title="素材(画像右)">素材(画像右)</a></li>
+</ul>
+</li>
+<li><a href="#プログラムの流れ" title="プログラムの流れ">プログラムの流れ</a><ul class="nav">
+<li><a href="#画像処理の概要" title="画像処理の概要">画像処理の概要</a></li>
+<li><a href="#画像の類似度、どう計算する？" title="画像の類似度、どう計算する？">画像の類似度、どう計算する？</a></li>
+<li><a href="#こんな感じで比べることにした" title="こんな感じで比べることにした">こんな感じで比べることにした</a></li>
+</ul>
+</li>
+<li><a href="#生成結果" title="生成結果">生成結果</a></li>
+<li><a href="#改良できそうな点" title="改良できそうな点">改良できそうな点</a></li>
+<li><a href="#プログラム概要" title="プログラム概要">プログラム概要</a><ul class="nav">
+<li><a href="#予防線・反省" title="予防線・反省">予防線・反省</a></li>
+<li><a href="#各ファイルについて" title="各ファイルについて">各ファイルについて</a></li>
+<li><a href="#フォルダ構成" title="フォルダ構成">フォルダ構成</a></li>
+<li><a href="#プログラム全文" title="プログラム全文">プログラム全文</a></li>
+</ul>
+</li>
+<li><a href="#参考文献" title="参考文献">参考文献</a></li>
+</ul>
+</li>
+</ul>
+</div><div class="toc-menu"><a class="expand-toggle" href="#">全部見る</a><a class="back-to-top" href="#">トップへ戻る</a><a class="go-to-bottom" href="#">底へ移る</a></div>
+            </ul>
+        </div>
+    </div>
+    <div id="ui-toc-affix" class="ui-affix-toc ui-toc-dropdown unselectable hidden-print" data-spy="affix" style="top:17px;display:none;" null null>
+        <div class="toc"><ul class="nav">
+<li class=""><a href="#Pythonでモザイクアートを生成して芸術的な証明写真を作りたい！" title="Pythonでモザイクアートを生成して芸術的な証明写真を作りたい！">Pythonでモザイクアートを生成して芸術的な証明写真を作りたい！</a><ul class="nav">
+<li><a href="#ストーリー" title="ストーリー">ストーリー</a><ul class="nav">
+<li><a href="#課題との出会い" title="課題との出会い">課題との出会い</a></li>
+<li><a href="#どうせなら、映えるもの" title="どうせなら、映えるもの">どうせなら、映えるもの</a></li>
+</ul>
+</li>
+<li><a href="#問題設定" title="問題設定">問題設定</a><ul class="nav">
+<li><a href="#萎えたこと" title="萎えたこと">萎えたこと</a></li>
+<li><a href="#フェイクの出現" title="フェイクの出現">フェイクの出現</a></li>
+</ul>
+</li>
+<li><a href="#環境" title="環境">環境</a></li>
+<li><a href="#今回使う画像" title="今回使う画像">今回使う画像</a><ul class="nav">
+<li><a href="#ターゲット画像-画像左" title="ターゲット画像 (画像左)">ターゲット画像 (画像左)</a></li>
+<li><a href="#素材画像右" title="素材(画像右)">素材(画像右)</a></li>
+</ul>
+</li>
+<li><a href="#プログラムの流れ" title="プログラムの流れ">プログラムの流れ</a><ul class="nav">
+<li><a href="#画像処理の概要" title="画像処理の概要">画像処理の概要</a></li>
+<li><a href="#画像の類似度、どう計算する？" title="画像の類似度、どう計算する？">画像の類似度、どう計算する？</a></li>
+<li><a href="#こんな感じで比べることにした" title="こんな感じで比べることにした">こんな感じで比べることにした</a></li>
+</ul>
+</li>
+<li><a href="#生成結果" title="生成結果">生成結果</a></li>
+<li><a href="#改良できそうな点" title="改良できそうな点">改良できそうな点</a></li>
+<li><a href="#プログラム概要" title="プログラム概要">プログラム概要</a><ul class="nav">
+<li><a href="#予防線・反省" title="予防線・反省">予防線・反省</a></li>
+<li><a href="#各ファイルについて" title="各ファイルについて">各ファイルについて</a></li>
+<li><a href="#フォルダ構成" title="フォルダ構成">フォルダ構成</a></li>
+<li><a href="#プログラム全文" title="プログラム全文">プログラム全文</a></li>
+</ul>
+</li>
+<li><a href="#参考文献" title="参考文献">参考文献</a></li>
+</ul>
+</li>
+</ul>
+</div><div class="toc-menu"><a class="expand-toggle" href="#">全部見る</a><a class="back-to-top" href="#">トップへ戻る</a><a class="go-to-bottom" href="#">底へ移る</a></div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gist-embed/2.6.0/gist-embed.min.js" integrity="sha256-KyF2D6xPIJUW5sUDSs93vWyZm+1RzIpKCexxElmxl8g=" crossorigin="anonymous" defer></script>
+    <script>
+        var markdown = $(".markdown-body");
+        //smooth all hash trigger scrolling
+        function smoothHashScroll() {
+            var hashElements = $("a[href^='#']").toArray();
+            for (var i = 0; i < hashElements.length; i++) {
+                var element = hashElements[i];
+                var $element = $(element);
+                var hash = element.hash;
+                if (hash) {
+                    $element.on('click', function (e) {
+                        // store hash
+                        var hash = this.hash;
+                        if ($(hash).length <= 0) return;
+                        // prevent default anchor click behavior
+                        e.preventDefault();
+                        // animate
+                        $('body, html').stop(true, true).animate({
+                            scrollTop: $(hash).offset().top
+                        }, 100, "linear", function () {
+                            // when done, add hash to url
+                            // (default click behaviour)
+                            window.location.hash = hash;
+                        });
+                    });
+                }
+            }
+        }
+
+        smoothHashScroll();
+        var toc = $('.ui-toc');
+        var tocAffix = $('.ui-affix-toc');
+        var tocDropdown = $('.ui-toc-dropdown');
+        //toc
+        tocDropdown.click(function (e) {
+            e.stopPropagation();
+        });
+
+        var enoughForAffixToc = true;
+
+        function generateScrollspy() {
+            $(document.body).scrollspy({
+                target: ''
+            });
+            $(document.body).scrollspy('refresh');
+            if (enoughForAffixToc) {
+                toc.hide();
+                tocAffix.show();
+            } else {
+                tocAffix.hide();
+                toc.show();
+            }
+            $(document.body).scroll();
+        }
+
+        function windowResize() {
+            //toc right
+            var paddingRight = parseFloat(markdown.css('padding-right'));
+            var right = ($(window).width() - (markdown.offset().left + markdown.outerWidth() - paddingRight));
+            toc.css('right', right + 'px');
+            //affix toc left
+            var newbool;
+            var rightMargin = (markdown.parent().outerWidth() - markdown.outerWidth()) / 2;
+            //for ipad or wider device
+            if (rightMargin >= 133) {
+                newbool = true;
+                var affixLeftMargin = (tocAffix.outerWidth() - tocAffix.width()) / 2;
+                var left = markdown.offset().left + markdown.outerWidth() - affixLeftMargin;
+                tocAffix.css('left', left + 'px');
+            } else {
+                newbool = false;
+            }
+            if (newbool != enoughForAffixToc) {
+                enoughForAffixToc = newbool;
+                generateScrollspy();
+            }
+        }
+        $(window).resize(function () {
+            windowResize();
+        });
+        $(document).ready(function () {
+            windowResize();
+            generateScrollspy();
+        });
+
+        //remove hash
+        function removeHash() {
+            window.location.hash = '';
+        }
+
+        var backtotop = $('.back-to-top');
+        var gotobottom = $('.go-to-bottom');
+
+        backtotop.click(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (scrollToTop)
+                scrollToTop();
+            removeHash();
+        });
+        gotobottom.click(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (scrollToBottom)
+                scrollToBottom();
+            removeHash();
+        });
+
+        var toggle = $('.expand-toggle');
+        var tocExpand = false;
+
+        checkExpandToggle();
+        toggle.click(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            tocExpand = !tocExpand;
+            checkExpandToggle();
+        })
+
+        function checkExpandToggle () {
+            var toc = $('.ui-toc-dropdown .toc');
+            var toggle = $('.expand-toggle');
+            if (!tocExpand) {
+                toc.removeClass('expand');
+                toggle.text('Expand all');
+            } else {
+                toc.addClass('expand');
+                toggle.text('Collapse all');
+            }
+        }
+
+        function scrollToTop() {
+            $('body, html').stop(true, true).animate({
+                scrollTop: 0
+            }, 100, "linear");
+        }
+
+        function scrollToBottom() {
+            $('body, html').stop(true, true).animate({
+                scrollTop: $(document.body)[0].scrollHeight
+            }, 100, "linear");
+        }
+    </script>
+</body>
+
+</html>
